@@ -6,8 +6,18 @@ A Ruby wrapper for the webthumb API from http://webthumb.bluga.net
 = dependencies
  - tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
 
+= Installation
+sudo gem sources -a http://gems.github.com
+sudo gem install simplificator-rwebthumb (note that the simplificator-prefix is required since we are on github)
+
+
 = Usage
-# Creating a Webthumb Object. This is used as your main access point
+# require the libs
+require 'rubygems'
+require 'rwebthumb'
+include Simplificator::Webthumb
+
+# Creating a Webthumb Object. This is used as your main access point.
 wt = Webthumb.new('YOUR API KEY')
 
 # Create a new thumbnail job
@@ -27,3 +37,9 @@ job.fetch_when_complete(:large)
 
 # there is a helper method to write the images to disk
 job.write_file(, '/tmp/test.jpg')
+
+# if you have a job ID then you can use this to get a Job object and then use the fetch_xyz methods
+wt.job_status(JOB_ID)
+
+# check the status of your account
+wt.status
