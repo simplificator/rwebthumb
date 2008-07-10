@@ -37,11 +37,10 @@ module Simplificator
         response = Net::HTTP.new(@api_uri.host, @api_uri.port).start {|p| p.request(request) }
         case response
         when Net::HTTPOK :
-          case response.content_type
+          case response.content_type.downcase
           when 'text/xml' : REXML::Document.new(response.body)
-          when 'image/jpg' 
-          when 'image/jpeg'
-          when 'image/png'
+          when 'image/jpg', 'image/jpeg', 'image/png'
+            raise WebthumbException.new("No data returned though content type is #{response.content_type}") if response.body.length == 0
             response.body
           else
             raise WebthumbException.new("usupported content type #{response.content_type}. Body was: \n#{response.body}")

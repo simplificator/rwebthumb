@@ -34,7 +34,7 @@ module Simplificator
         @cache = {}
       end
     
-      def request_status
+      def check_status
         response = do_request(build_status_xml())
         @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING
         if pickup?
@@ -46,9 +46,8 @@ module Simplificator
       
       def fetch_when_complete(size = :small)
         while not pickup?
-          puts "waiting for #{@duration_estimate}"
           sleep @duration_estimate
-          request_status
+          check_status
         end
         fetch(size)
       end
@@ -62,9 +61,11 @@ module Simplificator
       end
       
       def write_file(data, name)
+        raise WebthumbException.new('NO data given') if data == nil || data.size == 0
         File.open(name, 'wb+') do |file|
           file.write(data)
           file.close
+          file
         end
       end
       
