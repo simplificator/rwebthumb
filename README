@@ -1,0 +1,4 @@
+== rwebthumb
+
+= dependencies
+ - tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
