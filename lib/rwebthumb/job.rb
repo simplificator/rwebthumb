@@ -23,7 +23,7 @@ module Simplificator
           status_element.text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING)
       end
     
-      def initialize(api_key, job_id, url, submission_datetime, duration_estimate, cost, status = STATUS_PROCESS)
+      def initialize(api_key, job_id, url, submission_datetime, duration_estimate, cost, status = STATUS_PROCESSING)
         super(api_key)
         @job_id = job_id
         @url = url
@@ -46,6 +46,7 @@ module Simplificator
       
       def fetch_when_complete(size = :small)
         while not pickup?
+          puts "waiting for #{@duration_estimate}"
           sleep @duration_estimate
           request_status
         end
