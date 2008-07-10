@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{rwebthumb}
-  s.version = "0.0.5"
+  s.version = "0.0.6"
   s.date = %q{2008-07-10}
   s.authors = ["Simplificator GmbH"]
   s.email = %q{info@simplificator.com}

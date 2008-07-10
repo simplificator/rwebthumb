@@ -7,8 +7,9 @@ A Ruby wrapper for the webthumb API from http://webthumb.bluga.net
  - tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
 
 = Installation
-sudo gem sources -a http://gems.github.com
-sudo gem install simplificator-rwebthumb (note that the simplificator-prefix is required since we are on github)
+sudo gem update --system (in case you are not yet on version 1.2.0 or higher)
+sudo gem sources -a http://gems.github.com (only once)
+sudo gem install rwebthumb
 
 
 = Usage
