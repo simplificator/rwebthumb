@@ -9,7 +9,7 @@ A Ruby wrapper for the webthumb API from http://webthumb.bluga.net
 = Installation
 sudo gem update --system (in case you are not yet on version 1.2.0 or higher)
 sudo gem sources -a http://gems.github.com (only once)
-sudo gem install rwebthumb
+sudo gem install simplificator-rwebthumb
 
 
 = Usage
