@@ -15,14 +15,23 @@ module Simplificator
         submission_datetime = self.parse_webthumb_datetime(job_element.attributes['time'])
         Job.new(api_key, job_element.text, job_element.attributes['url'], submission_datetime, job_element.attributes['estimate'].to_i, job_element.attributes['cost'].to_i)
       end 
-      
+      # Factory method to create a Job object from a status XML.
+      # this does not set all attributes of the Job (url, duration_estimate, cost) since the API of webthumb does not
+      # return the same information on job creation and status requests.
       def self.from_status_xml(api_key, xml)
         status_element = REXML::XPath.first(xml, '/webthumb/jobStatus/status')
         submission_datetime = self.parse_webthumb_datetime(status_element.attributes['submissionTime'])
         job = Job.new(api_key, status_element.attributes['id'], nil, submission_datetime, 5, nil, 
           status_element.text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING)
       end
-    
+      # Constructor.
+      # *api_key: webthumb API key. Required by all the operations which query the server
+      # *job_id: id of the job. Required.
+      # *url: the url of the site to snapshot. Optional
+      # *submission_datetime: UTC Datetime of job submission
+      # *duration_estimate: integer value indicating estimated job duration in seconds
+      # *cost: integer value indicating how many credit this request costet. Optional
+      # *status: one of the STATUS_XXX constants defined in Base. Defaults to STATUS_PROCESSING
       def initialize(api_key, job_id, url, submission_datetime, duration_estimate, cost, status = STATUS_PROCESSING)
         super(api_key)
         @job_id = job_id
@@ -34,12 +43,14 @@ module Simplificator
         @cache = {}
       end
     
+      # Checks the status of the job on webthumb server.
+      # Returns one of the STATUS_XXX constants from Base.
+      # A call to this method updates the @status attribute.
       def check_status
         response = do_request(build_status_xml())
         @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING
         if pickup?
           @completion_time = response.attributes['completionTime']
-          @duration = 'not yet... need to convert times first' 
         end
         @status
       end
@@ -52,6 +63,10 @@ module Simplificator
         fetch(size)
       end
       
+      # Fetch an image from the webthumb server.
+      # If the job has not yet finished then the server will return an error so check status first or use fetch_when_complete()
+      # Images are cached in the context of this Job so consequent calls are not requested from server again.
+      # Cache is experimental, dont know if it is a good idea.
       def fetch(size = :small)
         unless @cache.has_key?(size)
           response = do_request(build_fetch_xml(size))
@@ -60,6 +75,10 @@ module Simplificator
         @cache[size]
       end
       
+      # Write the data to disk.
+      # *data: the bytes of the image as returned by fetch/fetch_when_complete
+      # *name: a filename
+      # Will return a File object
       def write_file(data, name)
         raise WebthumbException.new('NO data given') if data == nil || data.size == 0
         File.open(name, 'wb+') do |file|
@@ -69,9 +88,11 @@ module Simplificator
         end
       end
       
+      # Is the status attribute set to STATUS_PICKUP ?
       def pickup?
         @status == STATUS_PICKUP
       end	
+      # Is the status attribute set to STATUS_PROCESSING ?
       def processing?
         @status == STATUS_PROCESSING
       end

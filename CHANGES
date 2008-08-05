@@ -1,0 +1,6 @@
+0.1.0 (11. Juli 2008)
+  * Some documentation has been added
+  * The new (and currently alpha) videthumb option has been added
+  * This file has been created :-)
+  * Addded more test to check XML creation (and found/fixed a bug with notify URL)
+  * Typo in README

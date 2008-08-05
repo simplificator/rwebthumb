@@ -5,12 +5,12 @@ A Ruby wrapper for the webthumb API from http://webthumb.bluga.net and a generat
 for the easythumb API
 
 = dependencies
- - tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
+ * tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
 
 = Installation
 sudo gem update --system (in case you are not yet on version 1.2.0 or higher)
 sudo gem sources -a http://gems.github.com (only once)
-sudo gem install rwebthumb
+sudo gem install simplificator-rwebthumb
 
 
 = Usage
@@ -38,7 +38,7 @@ job.fetch_when_complete(:large)
 # once thumbnails are fetched they are cached within the job. so a new fetch will not go to the server again
 
 # there is a helper method to write the images to disk
-job.write_file(, '/tmp/test.jpg')
+job.write_file(job.fetch(:custom), '/tmp/test.jpg')
 
 # if you have a job ID then you can use this to get a Job object and then use the fetch_xyz methods
 wt.job_status(JOB_ID)
