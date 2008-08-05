@@ -1,2 +1,1 @@
 require 'rwebthumb'
-puts "****"

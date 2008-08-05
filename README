@@ -1,7 +1,8 @@
 == rwebthumb
 
 = what is it
-A Ruby wrapper for the webthumb API from http://webthumb.bluga.net
+A Ruby wrapper for the webthumb API from http://webthumb.bluga.net and a generator
+for the easythumb API
 
 = dependencies
  - tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
@@ -44,3 +45,10 @@ wt.job_status(JOB_ID)
 
 # check the status of your account
 wt.status
+
+
+# generate a Easythumb URL
+et = Easythumb.new('YOUR_API_KEY', 'YOUR_USER_ID')
+# This returns an URL which you can directly use in your webpage
+et.build_url(:url => 'http://simplificator.com', :size => :large, :cache => 1)
+

@@ -18,7 +18,7 @@ module Simplificator
       #  api_key: the Webthumb api key, not nil and not blank
       #  
       def initialize(api_key, api_endpoint = 'http://webthumb.bluga.net/api.php')
-        raise WebthumbException.new('Need an noot nil and not blank api_key') if api_key == nil || api_key == ''
+        raise WebthumbException.new('Need an not nil and not blank api_key') if api_key == nil || api_key == ''
         @api_key = api_key
         @api_endpoint = api_endpoint
         @api_uri = URI.parse(@api_endpoint)
