@@ -1,3 +1,7 @@
+0.2.6 (3. September 2008)
+  * fixed tests for our cruise control
+  * some cleanup
+  * several version bumps without adding more features. had troubles with githubs gem build system
 0.1.0 (11. Juli 2008)
   * Some documentation has been added
   * The new (and currently alpha) videthumb option has been added
