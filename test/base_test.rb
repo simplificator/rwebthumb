@@ -1,4 +1,4 @@
-require 'helper'
+require File.join(File.dirname(__FILE__), 'helper')
 class BaseTest < Test::Unit::TestCase
   def test_api_key_required
     assert_raises(WebthumbException) { Base.new('') }
