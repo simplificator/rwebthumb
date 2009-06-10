@@ -4,13 +4,9 @@
 A Ruby wrapper for the webthumb API from http://webthumb.bluga.net and a generator
 for the easythumb API
 
-= dependencies
- * tzinfo:http://tzinfo.rubyforge.org (install: sudo gem install tzinfo)
-
 = Installation
 sudo gem update --system (in case you are not yet on version 1.2.0 or higher)
 sudo gem sources -a http://gems.github.com (only once)
-sudo gem install tzinfo
 sudo gem install simplificator-rwebthumb
 
 
@@ -30,9 +26,9 @@ job = wt.thumbnail(:url => 'http://simplificator.com')
 # if thumb is not ready yet
 job.fetch(:large)
 
-# you can check the status of a job 
+# you can check the status of a job
 job.check_status()
- 
+
 # or fetch the thumbnail when it is complete
 job.fetch_when_complete(:large)
 
