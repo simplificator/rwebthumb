@@ -1,3 +1,5 @@
+0.2.7 (16. Jun 2009)
+  * Removed tzinfo dependency (thanks to rmm5t)
 0.2.6 (3. September 2008)
   * fixed tests for our cruise control
   * some cleanup
