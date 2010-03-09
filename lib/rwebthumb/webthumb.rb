@@ -50,8 +50,8 @@ module Simplificator
       # * subscription: an integer
       def credits()
         response = do_request(build_credits_xml())
-        credit_element = REXML::XPath.first(response, '/webthumb/credits')
-        {:reserve => credit_element['reserve'].text.to_i, :subscription => credit_element['subscription'].text.to_i}
+        credit_elements = REXML::XPath.first(response, '/webthumb/credits').elements
+        {:reserve => credit_elements['reserve'].text.to_i, :subscription => credit_elements['subscription'].text.to_i}
       end
       
       private 
