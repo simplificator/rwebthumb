@@ -1,3 +1,5 @@
+0.2.11
+  * Fixed a bug where content (images were not returned anymore). Thanks to PietHadermann for reporting this embarrassing bug!
 0.2.10 (11. Jun 2010)
   * Applied fixes from technoirlabs
 0.2.8 (16. Jun 2009)

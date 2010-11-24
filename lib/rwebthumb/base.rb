@@ -35,9 +35,13 @@ module Simplificator
         case response
         when Net::HTTPOK :
           case response.content_type.downcase
-          when 'text/xml' then REXML::Document.new(response.body)
+          when 'text/xml'
+            REXML::Document.new(response.body)
+          when 'text/plain'
+            raise WebthumbException.new("Unsupported content type #{response.content_type}: Body was: #{response.body}")
           when 'image/jpg', 'image/jpeg', 'image/png', 'archive/zip'
             raise WebthumbException.new("No data returned though content type is #{response.content_type}") if response.body.length == 0
+            response.body
           else
             raise WebthumbException.new("Unsupported content type #{response.content_type}")
           end

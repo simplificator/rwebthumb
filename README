@@ -40,10 +40,6 @@ job.write_file(job.fetch(:custom), '/tmp/test.jpg')
 # if you have a job ID then you can use this to get a Job object and then use the fetch_xyz methods
 wt.job_status(JOB_ID)
 
-# check the status of your account
-wt.status
-
-
 # generate a Easythumb URL
 et = Easythumb.new('YOUR_API_KEY', 'YOUR_USER_ID')
 # This returns an URL which you can directly use in your webpage

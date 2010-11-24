@@ -82,7 +82,7 @@ module Simplificator
       # *name: a filename
       # Will return a File object
       def write_file(data, name)
-        raise WebthumbException.new('NO data given') if data == nil || data.size == 0
+        raise WebthumbException.new('No data given') if data == nil || data.size == 0
         File.open(name, 'wb+') do |file|
           file.write(data)
           file.close
