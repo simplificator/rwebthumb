@@ -33,7 +33,7 @@ module Simplificator
         request.body = xml.to_s
         response = Net::HTTP.new(@api_uri.host, @api_uri.port).start {|p| p.request(request) }
         case response
-        when Net::HTTPOK :
+        when Net::HTTPOK
           case response.content_type.downcase
           when 'text/xml'
             REXML::Document.new(response.body)
