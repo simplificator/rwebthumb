@@ -51,17 +51,35 @@ module Simplificator
       def check_status
         response = do_request(build_status_xml())
         @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING
-        @zip_file_url = REXML::XPath.first(response, '/webthumb/jobStatus/status/pickup').text if pickup?
+      
         if pickup?
           @completion_time = response.attributes['completionTime']
+          
+          if REXML::XPath.first(response,'/webthumb/jobStatus/status')
+            @pickup_url = REXML::XPath.first(response,'/webthumb/jobStatus/status').attributes['pickup']
+            @browser_width = (REXML::XPath.first(response,'/webthumb/jobStatus/status').attributes['browserWidth'] || "0").to_i
+            @browser_height = (REXML::XPath.first(response,'/webthumb/jobStatus/status').attributes['browserHeight'] || "0").to_i          
+          end
         end
         @status
       end
-      
-      def zip_file_url
-          @zip_file_url
+    
+      # Returns the pickup url after a successful status request. You can use this to either download the zip file 
+      # directly or use the zip file as the base name to derive the individual download paths.
+      def pickup_url
+          @pickup_url
       end
-
+      
+      # Returns the browser width after a successful status request.
+      def browser_width
+        @browser_width
+      end
+      
+      # Returns the browser height after a successful status request.
+      def browser_height
+        @browser_height
+      end
+      
       def fetch_when_complete(size = :small)
         while not pickup?
           sleep @duration_estimate
