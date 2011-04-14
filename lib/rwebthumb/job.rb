@@ -51,10 +51,15 @@ module Simplificator
       def check_status
         response = do_request(build_status_xml())
         @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING
+        @zip_file_url = REXML::XPath.first(response, '/webthumb/jobStatus/status/pickup').text if pickup?
         if pickup?
           @completion_time = response.attributes['completionTime']
         end
         @status
+      end
+      
+      def zip_file_url
+          @zip_file_url
       end
 
       def fetch_when_complete(size = :small)
