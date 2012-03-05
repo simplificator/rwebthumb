@@ -46,7 +46,7 @@ module Simplificator
             raise WebthumbException.new("Unsupported content type #{response.content_type}")
           end
         else
-          raise CommunicationException('Response code was not HTTP OK')
+          raise CommunicationException.new('Response code was not HTTP OK')
         end
       end
 
