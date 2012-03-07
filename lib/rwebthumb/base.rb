@@ -11,6 +11,7 @@ module Simplificator
       VALID_SIZES = [:small, :medium, :medium2, :large, :full, :excerpt, :effect, :custom, :zip]
 
       attr_reader :api_key
+      attr_reader :api_endpoint
       # Constructor
       #  api_key: the Webthumb api key, not nil and not blank
       #

@@ -10,21 +10,21 @@ module Simplificator
       STATUS_PICKUP = 200
 
       # Factory method to build a Job object from a REXML xml element
-      def self.from_thumbnail_xml(api_key, xml)
+      def self.from_thumbnail_xml(api_key, api_endpoint, xml)
         job_element = REXML::XPath.first(xml, '/webthumb/jobs/job')
         return nil if job_element.nil?
 
         submission_datetime = self.parse_webthumb_datetime(job_element.attributes['time'])
-        Job.new(api_key, job_element.text, job_element.attributes['url'], submission_datetime, job_element.attributes['estimate'].to_i, job_element.attributes['cost'].to_i)
+        Job.new(api_key, api_endpoint, job_element.text, job_element.attributes['url'], submission_datetime, job_element.attributes['estimate'].to_i, job_element.attributes['cost'].to_i)
       end
       # Factory method to create a Job object from a status XML.
       # this does not set all attributes of the Job (url, duration_estimate, cost) since the API of webthumb does not
       # return the same information on job creation and status requests.
-      def self.from_status_xml(api_key, xml)
+      def self.from_status_xml(api_key, api_endpoint, xml)
         status_element = REXML::XPath.first(xml, '/webthumb/jobStatus/status')
         submission_datetime = self.parse_webthumb_datetime(status_element.attributes['submissionTime'])
-        job = Job.new(api_key, status_element.attributes['id'], nil, submission_datetime, 5, nil,
-          status_element.text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING)
+        job = Job.new(api_key, api_endpoint, status_element.attributes['id'], nil, submission_datetime, 5, nil,
+          status_element.text == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING)
       end
       # Constructor.
       # *api_key: webthumb API key. Required by all the operations which query the server
@@ -34,8 +34,8 @@ module Simplificator
       # *duration_estimate: integer value indicating estimated job duration in seconds
       # *cost: integer value indicating how many credit this request costet. Optional
       # *status: one of the STATUS_XXX constants defined in Base. Defaults to STATUS_PROCESSING
-      def initialize(api_key, job_id, url, submission_datetime, duration_estimate, cost, status = STATUS_PROCESSING)
-        super(api_key)
+      def initialize(api_key, api_endpoint, job_id, url, submission_datetime, duration_estimate, cost, status = STATUS_PROCESSING)
+        super(api_key, api_endpoint)
         @job_id = job_id
         @url = url
         @submission_datetime = submission_datetime
@@ -50,7 +50,7 @@ module Simplificator
       # A call to this method updates the @status attribute.
       def check_status
         response = do_request(build_status_xml())
-        @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'Complete' ? STATUS_PICKUP : STATUS_PROCESSING
+        @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING
       
         if pickup?
           @completion_time = response.attributes['completionTime']
