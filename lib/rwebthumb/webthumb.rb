@@ -31,7 +31,7 @@ module Simplificator
       # defined in Base.rb for valid values
       #
       def thumbnail(options = {})
-        Job.from_thumbnail_xml(@api_key, do_request(build_thumbnail_xml(options)))
+        Job.from_thumbnail_xml(@api_key, @api_endpoint, do_request(build_thumbnail_xml(options)))
       end
       
       # Request the job status from server.
@@ -41,7 +41,7 @@ module Simplificator
       # the requested URL, the duration estimation and the cost values when checking the status. I hope this will change someday.
       def job_status(job_id)
         raise WebthumbException.new('Job id is required') if job_id == nil || job_id == ''
-        Job.from_status_xml(@api_key, do_request(build_job_status_xml(job_id)))
+        Job.from_status_xml(@api_key, @api_endpoint, do_request(build_job_status_xml(job_id)))
       end
       
       # Check your credit status on the webthumbs server
