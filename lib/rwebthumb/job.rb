@@ -50,15 +50,16 @@ module Simplificator
       # A call to this method updates the @status attribute.
       def check_status
         response = do_request(build_status_xml())
-        @status = REXML::XPath.first(response, '/webthumb/jobStatus/status').text == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING
+        status_elem = REXML::XPath.first(response,'/webthumb/jobStatus/status')
+        @status = status_elem.text == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING
       
         if pickup?
-          @completion_time = response.attributes['completionTime']
           
-          if REXML::XPath.first(response,'/webthumb/jobStatus/status')
-            @pickup_url = REXML::XPath.first(response,'/webthumb/jobStatus/status').attributes['pickup']
-            @browser_width = (REXML::XPath.first(response,'/webthumb/jobStatus/status').attributes['browserWidth'] || "0").to_i
-            @browser_height = (REXML::XPath.first(response,'/webthumb/jobStatus/status').attributes['browserHeight'] || "0").to_i          
+          if status_elem
+            @completion_time = status_elem.attributes['completionTime']
+            @pickup_url = status_elem.attributes['pickup']
+            @browser_width = (status_elem.attributes['browserWidth'] || "0").to_i
+            @browser_height = (status_elem.attributes['browserHeight'] || "0").to_i          
           end
         end
         @status
@@ -139,7 +140,8 @@ module Simplificator
       end
 
       def to_s
-        "Job: #{@job_id} / Status: #{@status} / Submission Time #{@submission_time} / Duration Estimate #{@duration_estimate}"
+        extra = @pickup_url ? " / Completion Time: #{@completion_time} / Pickup Url: #{@pickup_url}" : ''
+        "Job: #{@job_id} / Status: #{@status} / Submission Time #{@submission_datetime} / Duration Estimate #{@duration_estimate}#{extra}"
       end
     end
   end

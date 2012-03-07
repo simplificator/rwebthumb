@@ -57,6 +57,7 @@ module Simplificator
         root = REXML::Element.new('webthumb')
         api = root.add_element('apikey')
         api.text = @api_key
+        root.add_element('version').text='3'
         root
       end
 
