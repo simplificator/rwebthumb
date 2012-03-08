@@ -11,6 +11,7 @@ module Simplificator
       VALID_SIZES = [:small, :medium, :medium2, :large, :full, :excerpt, :effect, :custom, :zip]
 
       attr_reader :api_key
+      attr_reader :api_endpoint
       # Constructor
       #  api_key: the Webthumb api key, not nil and not blank
       #
@@ -46,7 +47,7 @@ module Simplificator
             raise WebthumbException.new("Unsupported content type #{response.content_type}")
           end
         else
-          raise CommunicationException('Response code was not HTTP OK')
+          raise CommunicationException.new('Response code was not HTTP OK')
         end
       end
 
@@ -56,6 +57,7 @@ module Simplificator
         root = REXML::Element.new('webthumb')
         api = root.add_element('apikey')
         api.text = @api_key
+        root.add_element('version').text='3'
         root
       end
 
