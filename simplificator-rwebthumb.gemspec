@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = %q{simplificator-rwebthumb}
-  s.version = "0.2.12"
-  s.date = %q{2008-09-03}
+  s.version = "0.3.4"
+  s.date = %q{2012-07-27}
   s.authors = ["Simplificator GmbH"]
   s.email = %q{info@simplificator.com}
   s.summary = %q{rwebthumb provides a ruby interface for the webthumb.bluga.net}

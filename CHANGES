@@ -1,3 +1,9 @@
+0.3.4
+  * Fixed a bug reported by theMark: status requests failed
+0.3.2
+  * Merged pull request from https://github.com/simplificator/rwebthumb/pull/8 (thanks mthorn)
+0.3.0
+  * Merged pull request from https://github.com/simplificator/rwebthumb/pull/7 (thanks mwawrusch) which changes the API slightly.
 0.2.11
   * Fixed a bug where content (images were not returned anymore). Thanks to PietHadermann for reporting this embarrassing bug!
 0.2.10 (11. Jun 2010)

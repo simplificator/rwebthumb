@@ -24,7 +24,7 @@ module Simplificator
         status_element = REXML::XPath.first(xml, '/webthumb/jobStatus/status')
         submission_datetime = self.parse_webthumb_datetime(status_element.attributes['submissionTime'])
         job = Job.new(api_key, api_endpoint, status_element.attributes['id'], nil, submission_datetime, 5, nil,
-          status_element.text.downcase == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING)
+          (status_element.text || '').downcase == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING)
       end
       # Constructor.
       # *api_key: webthumb API key. Required by all the operations which query the server
@@ -51,7 +51,7 @@ module Simplificator
       def check_status
         response = do_request(build_status_xml())
         status_elem = REXML::XPath.first(response,'/webthumb/jobStatus/status')
-        @status = status_elem.text.downcase == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING
+        @status = (status_elem.text || '').downcase == 'complete' ? STATUS_PICKUP : STATUS_PROCESSING
       
         if pickup?
           
