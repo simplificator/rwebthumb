@@ -15,7 +15,7 @@ class JobTest < Test::Unit::TestCase
 
   def setup_job_from_xml(xml)
     job_xml = REXML::Document.new(xml)
-    @job = Job.from_thumbnail_xml('1234', job_xml)
+    @job = Job.from_thumbnail_xml('1234', 'http://webthumb.bluga.net/api.php', job_xml)
   end
 
   def test_from_thumbnail_xml
